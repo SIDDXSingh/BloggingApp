@@ -53,4 +53,8 @@ public class UserService {
     }
 
 
+    public UserResponseDto findUserByUsername(String username) {
+        var user=userRepository.findByUsername(username);
+        return modelMapper.map(user, UserResponseDto.class);
+    }
 }
