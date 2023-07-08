@@ -1,25 +1,23 @@
-package comments;
+package com.example.bloggingapp.comments;
 
 import com.example.bloggingapp.articles.ArticleEntity;
+import com.example.bloggingapp.common.BaseEntity;
 import com.example.bloggingapp.users.UserEntity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
 
-@Entity
+
+@Entity(name = "comment")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class CommentEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
-    private Long id;
+public class CommentEntity extends BaseEntity {
 
     @Column(nullable = false)
     private String title;
@@ -27,13 +25,12 @@ public class CommentEntity {
     @Column(nullable = false)
     private String body;
 
-    @Column(nullable = false)
-    private Date createdAt;
-
     @ManyToOne
     private UserEntity commenter;
-    @ManyToOne
+
+
+    @ManyToOne(targetEntity = ArticleEntity.class,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonBackReference
+    @JoinColumn(name ="article_id")
     private ArticleEntity article;
-
-
 }

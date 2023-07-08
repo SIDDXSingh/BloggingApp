@@ -1,7 +1,7 @@
-package com.example.bloggingapp.articles;
+package com.example.bloggingapp.comments;
 
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class ArticlesController {
+public class CommentsController {
 }

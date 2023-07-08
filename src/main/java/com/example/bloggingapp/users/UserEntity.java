@@ -2,13 +2,16 @@ package com.example.bloggingapp.users;
 
 
 import com.example.bloggingapp.articles.ArticleEntity;
-import comments.CommentEntity;
+import com.example.bloggingapp.common.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.example.bloggingapp.comments.CommentEntity;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.*;
+import org.apache.catalina.User;
 
 import java.util.List;
 
@@ -17,10 +20,7 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-public class UserEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+public class UserEntity extends BaseEntity {
 
     @Column(unique = true, nullable = false)
     private String username;
@@ -33,6 +33,8 @@ public class UserEntity {
 
     @Column
     private String bio;
+    @Column
+    private String image;
 
 
     @ManyToMany
@@ -44,12 +46,35 @@ public class UserEntity {
     private List<UserEntity>followee;
 
 
-    @OneToMany
+    @OneToMany(mappedBy = "author",targetEntity = ArticleEntity.class,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonManagedReference
     List<ArticleEntity>articles;
 
-    @ManyToMany
-    List<ArticleEntity>fans;
+    @ManyToMany(mappedBy = "fans",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    List<ArticleEntity>favorites;
 
     @OneToMany
     List<CommentEntity>comments;
+
+    public void addFollower(UserEntity user)
+    {
+        this.follower.add(user);
+    }
+
+    public void addFollowee(UserEntity user)
+    {
+        this.followee.add(user);
+    }
+
+    public void removeFollower(UserEntity user)
+    {
+
+        this.follower.remove(user);
+    }
+    public void removeFollowee(UserEntity user)
+    {
+        this.follower.remove(user);
+    }
+
+
 }

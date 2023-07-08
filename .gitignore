@@ -35,3 +35,5 @@ out/
 
 ### VS Code ###
 .vscode/
+testdb.mv.db
+testdb.lock.db
