@@ -30,6 +30,9 @@ public class ArticleEntity extends BaseEntity {
     @Column(nullable = false)
     private String body;
 
+    @Column(nullable = false)
+    private String slug;
+
     @Column
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<TagEntity>tags;
@@ -47,4 +50,13 @@ public class ArticleEntity extends BaseEntity {
     @OneToMany(targetEntity = CommentEntity.class,cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "article")
     @JsonManagedReference
     private List<CommentEntity>comments;
+
+
+    public void addComment(CommentEntity comment) {
+        this.comments.add(comment);
+    }
+
+    public void removeComment(CommentEntity comment) {
+        this.comments.remove(comment);
+    }
 }

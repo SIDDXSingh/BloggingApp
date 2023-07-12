@@ -60,6 +60,10 @@ public class UserEntity extends BaseEntity {
     {
         this.follower.add(user);
     }
+    public void addArticle(ArticleEntity article)
+    {
+        this.articles.add(article);
+    }
 
     public void addFollowee(UserEntity user)
     {
@@ -73,8 +77,15 @@ public class UserEntity extends BaseEntity {
     }
     public void removeFollowee(UserEntity user)
     {
-        this.follower.remove(user);
+        this.followee.remove(user);
     }
 
 
+    public void addComment(CommentEntity comment) {
+        this.comments.add(comment);
+    }
+
+    public void removeComment(CommentEntity comment) {
+        this.comments.remove(comment);
+    }
 }

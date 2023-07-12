@@ -35,6 +35,7 @@ public class UserService {
     public UserResponseDto createUser(CreateUserDto createUserDto)
     {
         UserEntity user=modelMapper.map(createUserDto,UserEntity.class);
+
         user.setPassword(passwordEncoder.encode(createUserDto.getPassword()));
         var savedUser=userRepository.save(user);
         var response=modelMapper.map(savedUser,UserResponseDto.class);
