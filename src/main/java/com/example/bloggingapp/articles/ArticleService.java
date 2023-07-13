@@ -48,7 +48,7 @@ public class ArticleService {
 
     public ArticleResponseDto getArticlesBySlug(String slug) {
 
-        ArticleEntity article=articleRepository.findBySlug(slug);
+        ArticleEntity article= articleRepository.findBySlug(slug).get(0);
         return modelMapper.map(article,ArticleResponseDto.class);
     }
 
@@ -57,15 +57,15 @@ public class ArticleService {
         ArticleEntity article=modelMapper.map(createArticleDto,ArticleEntity.class);
         article.setSlug(this.getSlug(article.getTitle()));
         UserEntity user=userRepository.findByUsername(userResponseDto.getUsername());
-        user.addArticle(article);
         article.setAuthor(user);
         userRepository.save(user);
         return modelMapper.map(articleRepository.save(article),ArticleResponseDto.class);
+
     }
 
     public ArticleResponseDto updateArticle(UserResponseDto user, UpdateArticleDto updateArticleDto, String slug)
     {
-        ArticleEntity article=articleRepository.findBySlug(slug);
+        ArticleEntity article=articleRepository.findBySlug(slug).get(0);
         if(updateArticleDto.getTitle()!=null) {
             article.setTitle(updateArticleDto.getTitle());
             article.setSlug(this.getSlug(updateArticleDto.getTitle()));
@@ -78,7 +78,7 @@ public class ArticleService {
     }
 
     public List<CommentResponseDto> getComments(String slug) {
-        ArticleEntity article=articleRepository.findBySlug(slug);
+        ArticleEntity article=articleRepository.findBySlug(slug).get(0);
         List<CommentEntity>commentEntities=commentRepository.findByArticle(article);
         return modelMapperList.mapList(commentEntities,CommentResponseDto.class);
     }
@@ -87,26 +87,23 @@ public class ArticleService {
 
 
     public CommentResponseDto postComment(UserResponseDto userResponseDto, String slug, CreateCommentDto createCommentDto) {
-        ArticleEntity article=articleRepository.findBySlug(slug);
+        ArticleEntity article=articleRepository.findBySlug(slug).get(0);
         UserEntity user=userRepository.findByUsername(userResponseDto.getUsername());
         CommentEntity comment=modelMapper.map(createCommentDto,CommentEntity.class);
-        user.addComment(comment);
+        System.out.println(comment.getBody());
+        System.out.println(createCommentDto.getBody());
         article.addComment(comment);
         comment.setArticle(article);
         comment.setCommenter(user);
-        userRepository.save(user);
-        articleRepository.save(article);
         return modelMapper.map(commentRepository.save(comment),CommentResponseDto.class);
     }
 
     public void deleteComment(UserResponseDto userResponseDto, String slug, Long commentId) {
-        ArticleEntity article=articleRepository.findBySlug(slug);
+        ArticleEntity article=articleRepository.findBySlug(slug).get(0);
         UserEntity user=userRepository.findByUsername(userResponseDto.getUsername());
         CommentEntity comment=commentRepository.findById(commentId).orElseThrow();
-        article.removeComment(comment);
-        user.removeComment(comment);
-        articleRepository.save(article);
-        userRepository.save(user);
+        comment.setCommenter(null);
+        comment.setArticle(null);
         commentRepository.delete(comment);
     }
 }

@@ -1,7 +1,9 @@
 package com.example.bloggingapp.comments.dtos;
 
-public class CreateCommentDto {
+import lombok.Data;
 
-    String title;
-    String body;
+@Data
+public class CreateCommentDto {
+    public String title;
+    public String body;
 }

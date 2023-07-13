@@ -21,8 +21,6 @@ public class UserController {
         this.userService=userService;
     }
 
-
-
     @PostMapping("/users")
     public ResponseEntity<UserResponseDto>createUser(@RequestBody CreateUserDto createUserDto)
     {

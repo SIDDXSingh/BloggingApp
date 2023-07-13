@@ -65,7 +65,7 @@ public class ArticlesController {
     }
     @PostMapping("/{slug}/comments")
     public ResponseEntity<CommentResponseDto>postComment(@AuthenticationPrincipal UserResponseDto userResponseDto,
-                                                         @PathVariable("slug") String slug, CreateCommentDto createCommentDto)
+                                                         @PathVariable("slug") String slug,@RequestBody CreateCommentDto createCommentDto)
     {
         CommentResponseDto commentResponseDto=articleService.postComment(userResponseDto,slug,createCommentDto);
         return ResponseEntity.created(URI.create("http://localhost:8383/articles/"+slug+"/comments/"+commentResponseDto.getId())).body(commentResponseDto);

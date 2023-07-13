@@ -21,6 +21,7 @@ import java.util.List;
 @Setter
 public class ArticleEntity extends BaseEntity {
 
+
     @Column(nullable = false)
     private String title;
 
@@ -56,7 +57,9 @@ public class ArticleEntity extends BaseEntity {
         this.comments.add(comment);
     }
 
-    public void removeComment(CommentEntity comment) {
-        this.comments.remove(comment);
+    public boolean removeComment(CommentEntity comment) {
+        return this.comments.remove(comment);
     }
+
+
 }

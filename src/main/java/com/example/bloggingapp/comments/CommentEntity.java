@@ -19,13 +19,13 @@ import lombok.Setter;
 @Setter
 public class CommentEntity extends BaseEntity {
 
-    @Column(nullable = false)
+    @Column
     private String title;
 
-    @Column(nullable = false)
+    @Column
     private String body;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = UserEntity.class,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private UserEntity commenter;
 
 

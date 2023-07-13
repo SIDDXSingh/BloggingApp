@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.List;
 
 @MappedSuperclass
+@Getter
+@Setter
 public abstract class BaseEntity {
 
 

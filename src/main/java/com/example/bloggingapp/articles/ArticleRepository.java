@@ -8,5 +8,5 @@ import java.util.List;
 @Repository
 public interface ArticleRepository extends JpaRepository<ArticleEntity, Long> {
 
-    public ArticleEntity findBySlug(String slug);
+    public List<ArticleEntity> findBySlug(String slug);
 }

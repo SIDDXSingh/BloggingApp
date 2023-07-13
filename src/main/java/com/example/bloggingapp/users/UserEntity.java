@@ -53,7 +53,8 @@ public class UserEntity extends BaseEntity {
     @ManyToMany(mappedBy = "fans",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     List<ArticleEntity>favorites;
 
-    @OneToMany
+    @OneToMany(mappedBy = "commenter",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonManagedReference
     List<CommentEntity>comments;
 
     public void addFollower(UserEntity user)
