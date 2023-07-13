@@ -44,7 +44,9 @@ public class ArticleEntity extends BaseEntity {
     private UserEntity author;
 
     @ManyToMany(targetEntity = UserEntity.class,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinTable(name = "favorites",joinColumns = @JoinColumn(name = "article_id"),inverseJoinColumns = @JoinColumn(name = "users_id"))
+    @JoinTable(name = "favorites",joinColumns = @JoinColumn(name = "article_id"),
+            inverseJoinColumns = @JoinColumn(name = "fans_id"),
+    uniqueConstraints = @UniqueConstraint(columnNames = {"article_id","fans_id"}))
     @JsonBackReference
     private List<UserEntity>fans;
 
@@ -62,4 +64,11 @@ public class ArticleEntity extends BaseEntity {
     }
 
 
+    public void addFan(UserEntity user) {
+        this.fans.add(user);
+    }
+
+    public void removeFan(UserEntity user) {
+        this.fans.remove(user);
+    }
 }

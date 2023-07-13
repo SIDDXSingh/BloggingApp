@@ -78,4 +78,21 @@ public class ArticlesController {
         articleService.deleteComment(userResponseDto,slug,commentId);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/{slug}/like")
+    public ResponseEntity<ArticleResponseDto>favoriteArticle(@AuthenticationPrincipal UserResponseDto userResponseDto,
+                                                              @PathVariable("slug") String slug)
+    {
+        ArticleResponseDto articleResponseDto=articleService.favoriteArticle(userResponseDto,slug);
+        return ResponseEntity.ok(articleResponseDto);
+    }
+
+    @DeleteMapping("/{slug}/dislike")
+    public ResponseEntity<Void>unfavoriteArticle(@AuthenticationPrincipal UserResponseDto userResponseDto,
+                                                                @PathVariable("slug") String slug)
+    {
+        ArticleResponseDto articleResponseDto=articleService.unfavoriteArticle(userResponseDto,slug);
+        return ResponseEntity.noContent().build();
+    }
+
 }

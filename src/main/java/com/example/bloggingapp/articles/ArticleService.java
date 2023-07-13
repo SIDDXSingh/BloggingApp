@@ -58,7 +58,6 @@ public class ArticleService {
         article.setSlug(this.getSlug(article.getTitle()));
         UserEntity user=userRepository.findByUsername(userResponseDto.getUsername());
         article.setAuthor(user);
-        userRepository.save(user);
         return modelMapper.map(articleRepository.save(article),ArticleResponseDto.class);
 
     }
@@ -105,5 +104,22 @@ public class ArticleService {
         comment.setCommenter(null);
         comment.setArticle(null);
         commentRepository.delete(comment);
+    }
+
+    public ArticleResponseDto favoriteArticle(UserResponseDto userResponseDto, String slug)
+    {
+        ArticleEntity article=articleRepository.findBySlug(slug).get(0);
+        UserEntity user=userRepository.findByUsername(userResponseDto.getUsername());
+        article.addFan(user);
+        return modelMapper.map(articleRepository.save(article),ArticleResponseDto.class);
+    }
+
+    public ArticleResponseDto unfavoriteArticle(UserResponseDto userResponseDto, String slug) {
+
+
+        ArticleEntity article=articleRepository.findBySlug(slug).get(0);
+        UserEntity user=userRepository.findByUsername(userResponseDto.getUsername());
+        article.removeFan(user);
+        return modelMapper.map(articleRepository.save(article),ArticleResponseDto.class);
     }
 }
